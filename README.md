@@ -23,3 +23,11 @@ A single-page personal portfolio website built with plain HTML/CSS/JS. It featur
 - CSS3 (Grid & Flexbox)
 - Vanilla JavaScript
 - Google Fonts (Space Grotesk, IBM Plex Mono, Fraunces, Work Sans)
+
+## Website Link
+
+- https://pimenteljohndexter0708-commits.github.io/Resume.web/
+
+## Github Repository
+
+- https://github.com/pimenteljohndexter0708-commits/Resume.web
