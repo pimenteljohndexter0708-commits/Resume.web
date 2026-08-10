@@ -3,11 +3,11 @@
 ## Student Information
 Name: John Dexter Pimentel
 Course: BSIT
-Section: BSIT 3A
+Section: 3A
 
 ## Project Description
 
-A single-page personal portfolio website built with plain HTML/CSS/JS. It features a bento-style layout with an identity block, an interactive photo gallery with lightbox, and quick-reference info sections such as About Me, Educational Background, and Contact Information.
+A single-page personal portfolio website built with plain HTML/CSS/JS. It features a bento-style layout with an identity block, an interactive photo gallery, and quick-reference info sections such as About Me, Educational Background, and Contact Information.
 
 ## Features
 
