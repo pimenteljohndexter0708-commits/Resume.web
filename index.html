@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Personal Site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=Fraunces:ital,wght@1,500&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12181B;
+    --panel:#1B2226;
+    --panel-2:#212B30;
+    --ink:#ECE8DE;
+    --ink-dim:#8B939A;
+    --line:#333F3F;
+    --amber:#E0A458;
+    --teal:#6FA8A3;
+    --red:#C1543A;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- site chrome ---------- */
+  .site-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:20px 48px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg);
+    position:sticky;
+    top:0;
+    z-index:8;
+  }
+
+  .site-logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:18px;
+    letter-spacing:.01em;
+  }
+
+  .site-logo::before{
+    content:"◆ ";
+    color:var(--amber);
+    font-size:11px;
+  }
+
+  .site-nav{
+    display:flex;
+    gap:28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+
+  .site-nav a.current{ color:var(--amber); }
+
+  /* ---------- page frame: spine + content ---------- */
+  .frame{
+    display:flex;
+    min-height:640px;
+  }
+
+  .spine{
+    flex:0 0 56px;
+    background:var(--panel-2);
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:28px 0;
+  }
+
+  .spine-label{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+
+  .spine-index{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--teal);
+    writing-mode:vertical-rl;
+    letter-spacing:.1em;
+  }
+
+  .content{
+    flex:1;
+    min-width:0;
+    padding:70px 64px 80px;
+    position:relative;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    background-position:-1px -1px;
+    background-color:var(--bg);
+  }
+
+  .content::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, var(--bg) 0%, rgba(18,24,27,0.94) 40%, rgba(18,24,27,0.98) 100%);
+    pointer-events:none;
+  }
+
+  .content > *{ position:relative; z-index:1; }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-bottom:28px;
+    transition:color .15s ease;
+  }
+
+  .back-link:hover{
+    color:var(--amber);
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-bottom:56px;
+  }
+
+  .eyebrow span{ color:var(--amber); }
+
+  /* ---------- overlapping identity block ---------- */
+  .identity-wrap{
+    position:relative;
+    border-bottom:1px solid var(--line);
+    padding-bottom:26px;
+    margin-bottom:44px;
+    margin-top:34px;
+  }
+
+  .photo-slot{
+    position:absolute;
+    top:-34px;
+    left:0;
+    width:150px;
+    height:150px;
+    border:1.5px solid var(--line);
+    background:var(--panel);
+    overflow:hidden;
+    z-index:3;
+  }
+
+  .photo-slot img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:saturate(0.95) contrast(1.02);
+  }
+
+  .photo-tag{
+    position:absolute;
+    top:-46px;
+    left:132px;
+    background:var(--red);
+    color:var(--bg);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    transform:rotate(-6deg);
+    z-index:4;
+  }
+
+  .name-block{
+    padding-left:190px;
+    padding-top:22px;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+
+  .name-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:8px;
+  }
+
+  .name-line{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 4.8vw, 46px);
+    color:var(--ink-dim);
+    font-style:italic;
+  }
+
+  /* ---------- bento grid ---------- */
+  .bento{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto auto auto;
+    gap:18px;
+    grid-template-areas:
+      "talent  talent"
+      "example example"
+      "photo   photo"
+      "dream   motto";
+  }
+
+  .box{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:22px 24px 24px;
+  }
+
+  .box-label{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-bottom:14px;
+  }
+
+  .box-label::before{
+    content:"§";
+    color:var(--amber);
+  }
+
+  .box-body{
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--ink-dim);
+    overflow-wrap:break-word;
+    word-break:break-word;
+  }
+
+  .talent{ grid-area:talent; }
+  .dream{ grid-area:dream; }
+  .top-info{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:18px;
+    margin-bottom:44px;
+  }
+
+  .example{
+    grid-area:example;
+    padding:30px 32px 34px;
+    min-height:160px;
+  }
+
+  .example .box-label{
+    font-size:11px;
+    margin-bottom:18px;
+  }
+
+
+
+  .example-layout{
+    display:flex;
+    gap:32px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .example-note{
+    flex:0 0 auto;
+    width:150px;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink-dim);
+    font-style:italic;
+  }
+
+  .example-poem{
+    flex:1;
+    min-width:220px;
+    margin-left:auto;
+    text-align:right;
+    padding-left:24px;
+    border-left:1px solid var(--line);
+    font-family:'Work Sans', sans-serif;
+    font-style:normal;
+    font-size:15px;
+    line-height:1.7;
+    color:var(--ink);
+    display:flex;
+    gap:6px;
+  }
+
+  .example-poem p{
+    flex:1;
+    min-width:0;
+    margin:0;
+    text-align:justify;
+  }
+
+  /* motto: tall pull-quote panel spanning two rows */
+  .motto{
+    grid-area:motto;
+    background:var(--panel-2);
+    border-left:3px solid var(--amber);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+
+  .motto::before{
+    content:"“";
+    position:absolute;
+    top:32px;
+    left:18px;
+    font-family:'Fraunces', serif;
+    font-size:64px;
+    color:var(--amber);
+    opacity:.25;
+    line-height:1;
+    z-index:0;
+  }
+
+  .motto .box-label,
+  .motto .box-body{
+    position:relative;
+    z-index:1;
+  }
+
+  .motto .box-body{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+  }
+
+  /* ---------- example photography section ---------- */
+  .photo-section{
+    grid-area:photo;
+  }
+
+  .photo-section .eyebrow{ margin-bottom:24px; }
+
+  .photo-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+  }
+
+  .photo-card{
+    margin:0;
+    border:1px solid var(--line);
+    background:var(--panel);
+    overflow:hidden;
+  }
+
+  .photo-card a{
+    display:block;
+    cursor:pointer;
+  }
+
+  .photo-card img{
+    display:block;
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    filter:saturate(0.92) contrast(1.02);
+    transition:filter .18s ease, transform .18s ease;
+  }
+
+  .photo-card a:hover img{
+    filter:saturate(1) contrast(1.05);
+    transform:scale(1.03);
+  }
+
+  .photo-card figcaption{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    border-top:1px solid var(--line);
+  }
+
+  .photo-card figcaption .fig-num{ color:var(--amber); }
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(18,24,27,0.96);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    z-index:50;
+  }
+
+  .lightbox.open{
+    display:flex;
+  }
+
+  .lightbox-back{
+    position:absolute;
+    top:24px;
+    left:32px;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:color .15s ease, border-color .15s ease;
+  }
+
+  .lightbox-back:hover{
+    color:var(--amber);
+    border-color:var(--amber);
+  }
+
+  .lightbox-figure{
+    margin:0;
+    max-width:min(900px, 100%);
+    max-height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+
+  .lightbox-figure img{
+    max-width:100%;
+    max-height:78vh;
+    object-fit:contain;
+    border:1px solid var(--line);
+  }
+
+  .lightbox-figure figcaption{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+
+  @media (max-width:1000px){
+    .content{ padding:56px 36px 64px; }
+    .top-info{
+      grid-template-columns:1fr 1fr;
+    }
+    .name-line{ font-size:clamp(26px, 5.5vw, 40px); }
+  }
+
+  @media (max-width:760px){
+    .lightbox{ padding:24px; }
+    .lightbox-back{ top:16px; left:16px; }
+    .site-header{ padding:16px 22px; }
+    .site-nav{ gap:16px; }
+    .frame{ flex-direction:column; }
+    .spine{
+      flex-direction:row;
+      width:100%;
+      padding:10px 20px;
+      justify-content:space-between;
+    }
+    .spine-label, .spine-index{
+      writing-mode:horizontal-tb;
+      transform:none;
+    }
+    .content{ padding:40px 22px 56px; background-size:32px 32px; }
+    .identity-wrap{ padding-top:0; }
+    .photo-slot{ position:static; margin-bottom:16px; }
+    .photo-tag{ position:static; display:inline-block; margin-bottom:16px; transform:none; }
+    .name-block{ padding-left:0; padding-top:0; min-height:0; }
+    .bento{
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "talent"
+        "example"
+        "photo"
+        "motto"
+        "dream";
+    }
+
+    .top-info{
+      grid-template-columns:1fr;
+    }
+
+    .example{ padding:24px 22px 26px; min-height:0; }
+    .example-layout{ flex-direction:column; gap:14px; }
+    .example-note{ width:auto; }
+    .example-poem{
+      margin-left:0;
+      text-align:left;
+      padding-left:16px;
+      font-size:15px;
+      flex-direction:column;
+      gap:14px;
+    }
+  }
+
+  @media (max-width:420px){
+    .site-logo{ font-size:16px; }
+    .site-nav{ font-size:10px; gap:12px; }
+    .name-line{ font-size:clamp(22px, 8vw, 30px); }
+    .box{ padding:18px 18px 20px; }
+    .photo-slot{ width:120px; height:120px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-logo"> </div>
+    <nav class="site-nav">
+      <a href="#" class="current">Portfolio</a>
+    </nav>
+  </header>
+
+  <div class="frame">
+    <aside class="spine">
+      <span class="spine-label">Portfolior</span>
+      <span class="spine-index">N. 001</span>
+    </aside>
+
+    <main class="content">
+
+
+
+      <div class="identity-wrap">
+        <div class="photo-slot">
+          <img src="profile.jpg" alt="Profile photo of John Dexter A. Pimentel">
+        </div>
+        <div class="photo-tag">Fig. 01</div>
+        <div class="name-block">
+          <div class="name-label">Name</div>
+          <div class="name-line">Pimentel, John Dexter A. </div>
+        </div>
+      </div>
+
+      <div class="top-info">
+        <div class="box about">
+          <span class="box-label">About Me</span>
+          <div class="box-body">I'm a college student who enjoys writing poems and creating music. I'm originally from Las Piñas, so I can't speak or understand Kapampangan.</div>
+        </div>
+
+        <div class="box edu">
+          <span class="box-label">Educational Background</span>
+          <div class="box-body">Graduated from Senior High School at Informatics College Alabang.</div>
+        </div>
+
+        <div class="box contact">
+          <span class="box-label">Contact Information</span>
+          <div class="box-body">Gmail: pimentel.johndexter0708@gmail.com<br>Instagram: xedexie<br>Contact Number: 09476962896</div>
+        </div>
+      </div>
+
+      <div class="bento">
+        <div class="box talent">
+          <span class="box-label">Special Talent</span>
+          <div class="box-body"> I write poetry and compose music. Street Photography</div>
+        </div>
+
+        <div class="box example">
+          <span class="box-label">Example</span>
+          <div class="example-layout">
+            <div class="example-note">  a poem I wrote that reflects this talent</div>
+            <div class="example-poem">
+              <p>Basahin mo 'kong parang mga tula<br>
+              totoong mga salita,<br>
+              Kikilalanin kita sa mga tawa<br>
+              mga hikbi, pagpatak ng luha,<br>
+              Gagalain ko ang iyong kaisipan<br>
+              patungkol sa anumang bagay,<br>
+              bisitahin mo 'ko sa gabi<br>
+              kung saan totoo ang buhay.</p>
+              <p>Basahin mo 'kong parang mga salita sa libro<br>
+              ilalahad 'kong lahat,<br>
+              Managinip tayong sabay at<br>
+              makikilala mo 'kong tuluyan,<br>
+              Lumalalim 'kong pagtingin aabutin hanggang sukdulan,<br>
+              mamahalin ka na higit sa'yong pangalan, paraluman.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-section">
+          <div class="eyebrow">Example Photography </div>
+          <div class="photo-grid">
+            <figure class="photo-card">
+              <a href="#" onclick="openLightbox('photo-1.jpg','Birria na pula');return false;">
+                <img src="photo-1.jpg" alt="Birria na pula">
+              </a>
+              <figcaption><span class="fig-num"></span><span>Birria na pula</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <a href="#" onclick="openLightbox('photo-2.jpg','Siomai sa gabi');return false;">
+                <img src="photo-2.jpg" alt="Siomai sa gabi">
+              </a>
+              <figcaption><span class="fig-num"></span><span>Siomai sa gabi</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <a href="#" onclick="openLightbox('photo-3.jpg','Ikaw');return false;">
+                <img src="photo-3.jpg" alt="ikaw">
+              </a>
+              <figcaption><span class="fig-num"></span><span>Ikaw</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <a href="#" onclick="openLightbox('photo-4.jpg','halik-araw');return false;">
+                <img src="photo-4.jpg" alt="halik-araw">
+              </a>
+              <figcaption><span class="fig-num"></span><span>halik-araw</span></figcaption>
+            </figure> 
+          </div>
+        </div>
+
+        <div class="box motto">
+          <span class="box-label">Motto</span>
+          <div class="box-body">such is the way of life</div>
+        </div>
+
+        <div class="box dream">
+          <span class="box-label">Dream</span>
+            <div class="box-body">To establish a successful career while living in Norway, my preferred retirement destination.</div>
+          </div>
+      </div>  
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-back" onclick="closeLightbox()">← Back</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+
+  <script>
+    function openLightbox(src, caption){
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-img').alt = caption;
+      document.getElementById('lightbox-caption').textContent = caption;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>
